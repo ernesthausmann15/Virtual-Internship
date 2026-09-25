@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
+import { HomePage } from "@/components/home/HomePage";
+
+export const metadata: Metadata = {
+  title: "Gain more knowledge in less time",
+};
+
 export default function Home() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-mist">
-      <p className="text-lg font-medium text-navy">Virtual Internship</p>
-    </main>
-  );
+  return <HomePage />;
 }
