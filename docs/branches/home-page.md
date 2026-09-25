@@ -1,6 +1,6 @@
 # feature/home-page
 
-## What changed
+## What
 
 The `/` route became the Summarist landing page: hero, feature row, statistics, reviews, a closing call to action, and a footer. Motion includes a neural field, a small orbiting mark in the header, words that arrive one at a time, and sections that rise in as they scroll into view.
 
