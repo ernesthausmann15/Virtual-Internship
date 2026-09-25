@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   AiFillAudio,
@@ -11,6 +10,7 @@ import {
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { RiLeafLine } from "react-icons/ri";
+import { AiLogo } from "@/components/brand/AiLogo";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { AiField } from "@/components/motion/AiField";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -169,7 +169,7 @@ export function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/40" />
         </div>
         <div className="relative mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
-          <div>
+          <div className="order-2 md:order-1">
             <h1 className="text-4xl font-bold leading-tight md:text-5xl">
               {title.map((word, index) => (
                 <motion.span
@@ -201,18 +201,19 @@ export function HomePage() {
             </motion.div>
           </div>
           <motion.div
-            className="relative hidden justify-end md:flex"
-            animate={reduce ? undefined : { y: [0, -14, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative order-1 md:order-2"
+            initial={reduce ? false : { opacity: 0, scale: 0.92 }}
+            animate={reduce ? undefined : { opacity: 1, scale: 1, y: [0, -10, 0] }}
+            transition={{
+              opacity: { duration: 0.7 },
+              scale: { duration: 0.7, ease: cinematicEase },
+              y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+            }}
           >
-            <Image
-              src="/images/landing.png"
-              alt="Person learning with Virtual Internship"
-              width={420}
-              height={420}
-              priority
-              className="h-auto w-full max-w-md"
-            />
+            <AiLogo />
+            <p className="mt-2 text-center text-sm font-medium tracking-wide text-ink">
+              Move across the mark. It leans with you.
+            </p>
           </motion.div>
         </div>
       </section>

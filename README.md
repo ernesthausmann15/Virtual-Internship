@@ -47,3 +47,13 @@ Book covers morph between the feed, the detail page, and the player. Search wait
 ## Branches
 
 Features were built on `feature/auth-modal`, `feature/home-page`, `feature/for-you-page`, `feature/book-detail`, `feature/player`, `feature/choose-plan`, and `feature/navigation-and-settings`, then merged back to `main`.
+
+## Deploy on Vercel
+
+The app builds with no Firebase or Stripe secrets. Missing env vars leave sign-in and checkout inactive; pages still render.
+
+1. Import this GitHub repo in Vercel and leave the framework as Next.js. Production branch is `main`.
+2. Optional environment variables (see `.env.example`): `NEXT_PUBLIC_FIREBASE_*` and the two Stripe price ids.
+3. Deploy. `npm run build` is the production command Vercel runs.
+
+Node 20 or newer is required (`engines` in `package.json`).
