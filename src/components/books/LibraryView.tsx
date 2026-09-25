@@ -18,37 +18,34 @@ export function LibraryView() {
   const [books, setBooks] = useState<LibraryEntry[] | null>(null);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      dispatch(openAuthModal("login"));
-      setBooks([]);
-    }
+    if (status === "unauthenticated") dispatch(openAuthModal("login"));
   }, [dispatch, status]);
 
   useEffect(() => {
-    if (!user || !isFirebaseConfigured()) {
-      if (status !== "unknown") setBooks([]);
-      return;
-    }
+    if (!user || !isFirebaseConfigured()) return;
     return watchLibrary(user.uid, setBooks);
-  }, [status, user]);
+  }, [user]);
+
+  const showSkeleton = status === "unknown" || (Boolean(user) && books === null);
+  const list = user ? (books ?? []) : [];
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <h1 className="mb-6 text-2xl font-bold text-navy">My Library</h1>
-      {books === null && (
+      {showSkeleton && (
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <Skeleton key={index} className="aspect-[2/3] w-full" />
           ))}
         </div>
       )}
-      {books?.length === 0 && (
+      {list.length === 0 && !showSkeleton && (
         <p className="font-light text-ink">
           Nothing saved yet. Open a book and choose Add to My Library.
         </p>
       )}
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-        {books?.map((book, index) => (
+        {list.map((book, index) => (
           <motion.div
             key={book.bookId}
             initial={{ opacity: 0, y: 12 }}

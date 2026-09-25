@@ -29,12 +29,11 @@ export function BookDetail({ book }: { book: Book }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user || !isFirebaseConfigured()) {
-      setSaved(false);
-      return;
-    }
+    if (!user || !isFirebaseConfigured()) return;
     return watchSaved(user.uid, book.id, setSaved);
   }, [book.id, user]);
+
+  const isSaved = Boolean(user) && saved;
 
   const decision = decideAccess(status, user, tier, book.subscriptionRequired);
 
@@ -55,7 +54,7 @@ export function BookDetail({ book }: { book: Book }) {
     setPending(true);
     setError(null);
     try {
-      if (saved) await removeFromLibrary(user.uid, book.id);
+      if (isSaved) await removeFromLibrary(user.uid, book.id);
       else await saveToLibrary(user.uid, book);
     } catch {
       setError("Could not update your library.");
@@ -142,7 +141,7 @@ export function BookDetail({ book }: { book: Book }) {
               </>
             )}
             <Button variant="secondary" className="h-10 px-5" onClick={() => void toggleLibrary()} disabled={pending}>
-              {saved ? "Remove from My Library" : "Add to My Library"}
+              {isSaved ? "Remove from My Library" : "Add to My Library"}
             </Button>
           </div>
           {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
