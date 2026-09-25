@@ -1,4 +1,11 @@
 rules_version = '2';
+// Assumed data model:
+// users/{uid}/library/{bookId}: bookId, title, author, imageLink, subTitle,
+//   subscriptionRequired, addedAt. Owner-only.
+// customers/{uid}/checkout_sessions: price, success_url, cancel_url,
+//   optional allow_promotion_codes and trial_period_days (yearly = 7).
+// customers/{uid}/subscriptions and payments: read-only for the owner.
+// The Stripe extension writes those with the Admin SDK, which bypasses rules.
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() {
@@ -32,6 +39,20 @@ service cloud.firestore {
         && data.addedAt is timestamp;
     }
 
+    function isValidCheckout(data) {
+      return data.keys().hasAll(['price', 'success_url', 'cancel_url'])
+        && data.keys().hasOnly(['price', 'success_url', 'cancel_url', 'allow_promotion_codes', 'trial_period_days'])
+        && data.price is string
+        && data.price.size() > 0
+        && data.price.size() < 120
+        && data.success_url is string
+        && data.success_url.size() < 500
+        && data.cancel_url is string
+        && data.cancel_url.size() < 500
+        && (!('allow_promotion_codes' in data) || data.allow_promotion_codes is bool)
+        && (!('trial_period_days' in data) || data.trial_period_days == 7);
+    }
+
     match /users/{uid}/library/{bookId} {
       allow read: if isOwner(uid);
       allow create: if isOwner(uid)
@@ -42,6 +63,28 @@ service cloud.firestore {
         && request.resource.data.bookId == resource.data.bookId
         && isValidLibrary(request.resource.data);
       allow delete: if isOwner(uid);
+    }
+
+    // Written by the client, then completed by the Stripe extension (Admin SDK).
+    match /customers/{uid} {
+      allow read: if isOwner(uid);
+      allow write: if false;
+
+      match /checkout_sessions/{id} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid) && isValidCheckout(request.resource.data);
+        allow update, delete: if false;
+      }
+
+      match /subscriptions/{id} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
+
+      match /payments/{id} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
     }
 
     match /{document=**} {
