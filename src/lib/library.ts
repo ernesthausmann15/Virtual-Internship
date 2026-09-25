@@ -45,10 +45,7 @@ export async function removeFromLibrary(uid: string, bookId: string) {
   await deleteDoc(libraryDoc(uid, bookId));
 }
 
-/**
- * Sorted in the client so we do not need a Firestore composite index
- * for a list that only one signed-in user can read.
- */
+/** One document listener is enough to know if this title is already saved. */
 export function watchSaved(
   uid: string,
   bookId: string,
@@ -58,6 +55,12 @@ export function watchSaved(
     onChange(snapshot.exists());
   });
 }
+
+/**
+ * Sorted in the client so we do not need a Firestore composite index
+ * for a list that only one signed-in user can read.
+ */
+export function watchLibrary(uid: string, onChange: (books: LibraryEntry[]) => void): Unsubscribe {
   return onSnapshot(libraryCollection(uid), (snapshot) => {
     const books = snapshot.docs.map((entry) => {
       const data = entry.data();
