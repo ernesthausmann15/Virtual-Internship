@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { AuthListener } from "@/components/providers/AuthListener";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import "./globals.css";
 
@@ -22,7 +24,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${roboto.variable} h-full antialiased`}>
       <body className="min-h-full bg-background text-foreground">
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          <AuthListener />
+          {children}
+          <AuthModal />
+        </StoreProvider>
       </body>
     </html>
   );
