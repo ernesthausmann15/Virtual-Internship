@@ -14,8 +14,8 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: {
-    default: "Virtual Internship",
-    template: "%s · Virtual Internship",
+    default: "Summarist",
+    template: "%s · Summarist",
   },
   description:
     "Gain more knowledge in less time. Read or listen to the key ideas from the best books.",

@@ -3,7 +3,7 @@
     "providers": {
       "emailPassword": true,
       "googleSignIn": {
-        "oAuthBrandDisplayName": "Virtual Internship",
+        "oAuthBrandDisplayName": "Summarist",
         "supportEmail": "ernesthausmann15@gmail.com"
       }
     },

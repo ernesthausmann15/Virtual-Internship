@@ -35,7 +35,7 @@ export function BrandMark({
       </span>
       {!compact && (
         <span className={cn("text-lg font-bold tracking-tight", light ? "text-white" : "text-navy")}>
-          Virtual Internship
+          Summarist
         </span>
       )}
     </div>

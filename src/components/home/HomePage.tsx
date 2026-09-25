@@ -56,15 +56,15 @@ const growthAlt = [
 ];
 
 const stats = [
-  ["93%", "of Virtual Internship members significantly increase reading frequency."],
-  ["96%", "of Virtual Internship members establish better habits."],
+  ["93%", "of Summarist members significantly increase reading frequency."],
+  ["96%", "of Summarist members establish better habits."],
   ["90%", "have made significant positive change to their lives."],
 ];
 
 const statsAlt = [
-  ["91%", "of Virtual Internship members report feeling more productive after incorporating the service into their daily routine."],
-  ["94%", "of Virtual Internship members have noticed an improvement in their overall comprehension and retention of information."],
-  ["88%", "of Virtual Internship members feel more informed about current events and industry trends since using the platform."],
+  ["91%", "of Summarist members report feeling more productive after incorporating the service into their daily routine."],
+  ["94%", "of Summarist members have noticed an improvement in their overall comprehension and retention of information."],
+  ["88%", "of Summarist members feel more informed about current events and industry trends since using the platform."],
 ];
 
 const reviews = [
@@ -77,7 +77,7 @@ const reviews = [
 const numbers = [
   { icon: BiCrown, title: "3 Million", body: "Downloads on all platforms", stars: false },
   { icon: BsStarFill, title: "4.5 Stars", body: "Average ratings on iOS and Google Play", stars: true },
-  { icon: RiLeafLine, title: "97%", body: "Of Virtual Internship members create a better reading habit", stars: false },
+  { icon: RiLeafLine, title: "97%", body: "Of Summarist members create a better reading habit", stars: false },
 ];
 
 const footer = [
@@ -276,7 +276,7 @@ export function HomePage() {
 
       <section className="mx-auto max-w-5xl px-6 py-16">
         <Reveal>
-          <h2 className="mb-10 text-center text-3xl font-bold">Start growing with Virtual Internship now</h2>
+          <h2 className="mb-10 text-center text-3xl font-bold">Start growing with Summarist now</h2>
         </Reveal>
         <RevealGroup className="grid gap-6 md:grid-cols-3">
           {numbers.map((item) => (
@@ -314,7 +314,7 @@ export function HomePage() {
             </div>
           ))}
         </div>
-        <p className="pb-8 text-center text-sm font-medium">Copyright © {new Date().getFullYear()} Virtual Internship.</p>
+        <p className="pb-8 text-center text-sm font-medium">Copyright © {new Date().getFullYear()} Summarist.</p>
       </footer>
     </div>
   );

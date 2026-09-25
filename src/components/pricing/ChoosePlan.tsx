@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 const faqs = [
   {
     q: "How does the free 7-day trial work?",
-    a: "Begin your complimentary 7-day trial with a Virtual Internship annual membership. You are under no obligation to continue your subscription, and you will only be billed when the trial period expires. With Premium access, you can learn at your own pace and as frequently as you desire, and you may terminate your subscription prior to the conclusion of the 7-day free trial.",
+    a: "Begin your complimentary 7-day trial with a Summarist annual membership. You are under no obligation to continue your subscription, and you will only be billed when the trial period expires. With Premium access, you can learn at your own pace and as frequently as you desire, and you may terminate your subscription prior to the conclusion of the 7-day free trial.",
   },
   {
     q: "Can I switch subscriptions from monthly to yearly, or yearly to monthly?",
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "What's included in the Premium plan?",
-    a: "Premium membership provides you with the ultimate Virtual Internship experience, including unrestricted entry to many best-selling books, high-quality audio, the ability to download titles for offline reading, and the option to send your reads to your Kindle.",
+    a: "Premium membership provides you with the ultimate Summarist experience, including unrestricted entry to many best-selling books, high-quality audio, the ability to download titles for offline reading, and the option to send your reads to your Kindle.",
   },
   {
     q: "Can I cancel during my trial or subscription?",

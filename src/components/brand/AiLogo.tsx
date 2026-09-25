@@ -70,7 +70,7 @@ export function AiLogo({ className }: { className?: string }) {
           animate={reduce ? undefined : { scale: [1, 1.05, 1] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="text-3xl font-bold tracking-tight">VI</span>
+          <span className="text-3xl font-bold tracking-tight">S</span>
         </motion.div>
       </motion.div>
     </div>

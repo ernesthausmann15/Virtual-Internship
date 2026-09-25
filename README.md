@@ -1,6 +1,6 @@
-# Virtual Internship
+# Summarist
 
-A cinematic book-summary app modeled on [Summarist](https://summarist.vercel.app/). Read or listen to key ideas, save titles to a personal library, and subscribe with Stripe.
+A cinematic book-summary app. Read or listen to key ideas, save titles to a personal library, and subscribe with Stripe.
 
 ## Stack
 

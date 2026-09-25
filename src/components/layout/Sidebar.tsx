@@ -74,7 +74,7 @@ export function Sidebar() {
       <SearchBar onNavigate={() => setOpen(false)} />
 
       <div className="mt-auto grid gap-2 text-sm">
-        <a href="mailto:support@virtualinternship.app" className="flex items-center gap-3 px-3 py-2 text-white/80">
+        <a href="mailto:support@summarist.app" className="flex items-center gap-3 px-3 py-2 text-white/80">
           <HiOutlineQuestionMarkCircle className="size-5" />
           Help & Support
         </a>
