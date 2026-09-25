@@ -1,6 +1,6 @@
 # feature/for-you-page
 
-## What changed
+## What
 
 `/for-you` lists selected, recommended, and suggested books. Cards show the cover, title, author, subtitle, and duration. Books that require a subscription get a Premium pill. Choosing a card opens `/book/[id]`.
 
