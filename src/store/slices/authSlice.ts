@@ -1,10 +1,11 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { isFirebaseConfigured } from "@/lib/firebase";
 import type { AuthUser } from "@/types/user";
 
 /**
- * `unknown` is the first paint, before Firebase has restored a session.
- * Access checks must wait for this so a subscribed user is not bounced
- * to the login modal during that brief hydration window.
+ * `unknown` means Firebase is configured and we are still restoring a session.
+ * If there is no project yet, start as logged out so the server and the browser
+ * render the same buttons instead of a disabled "please wait" state.
  */
 type AuthStatus = "unknown" | "authenticated" | "unauthenticated";
 
@@ -14,7 +15,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  status: "unknown",
+  status: isFirebaseConfigured() ? "unknown" : "unauthenticated",
   user: null,
 };
 

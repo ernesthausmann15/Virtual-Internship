@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { AuthModal } from "@/components/auth/AuthModal";
+import { AppShell } from "@/components/layout/AppShell";
 import { AuthListener } from "@/components/providers/AuthListener";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import "./globals.css";
@@ -26,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-background text-foreground">
         <StoreProvider>
           <AuthListener />
-          {children}
+          <AppShell>{children}</AppShell>
           <AuthModal />
         </StoreProvider>
       </body>
