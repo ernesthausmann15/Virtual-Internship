@@ -11,6 +11,6 @@ Each feature branch also has `docs/BRANCH.md` at its own tip. These copies are t
 | `feature/player` | [player.md](./player.md) |
 | `feature/choose-plan` | [choose-plan.md](./choose-plan.md) |
 | `feature/navigation-and-settings` | [navigation-and-settings.md](./navigation-and-settings.md) |
-| `feature/ai-homepage` | [../BRANCH.md](../BRANCH.md) |
+| `feature/ai-homepage` | [ai-homepage.md](./ai-homepage.md) |
+| `feature/firebase-backend` | [firebase-backend.md](./firebase-backend.md) |
 
-`feature/firebase-backend` was created for Firebase wiring and has no product commits. That work was paused before any app code changed.
