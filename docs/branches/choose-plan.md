@@ -1,6 +1,6 @@
 # feature/choose-plan
 
-## What changed
+## What
 
 `/choose-plan` offers Premium monthly and Premium Plus yearly. The yearly plan includes a 7-day trial. A billing toggle animates between the two prices, and an FAQ accordion sits under the card. The sidebar is hidden on this route.
 
