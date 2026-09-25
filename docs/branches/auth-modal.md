@@ -1,6 +1,6 @@
 # feature/auth-modal
 
-## What changed
+## What
 
 A single sign-in dialog is available from anywhere in the app. It supports email and password, Google, a guest account, and password reset. The signed-in user and their plan live in Redux.
 
