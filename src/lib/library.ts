@@ -45,7 +45,12 @@ export async function removeFromLibrary(uid: string, bookId: string) {
   await deleteDoc(libraryDoc(uid, bookId));
 }
 
-/** One document listener is enough to know if this title is already saved. */
+/**
+ * Live listeners, not a one-shot query: the shelf has to update the moment
+ * a book is saved or removed, including from another tab. Pipelines cannot
+ * push those changes. One document listener is enough to know if this title
+ * is already saved.
+ */
 export function watchSaved(
   uid: string,
   bookId: string,

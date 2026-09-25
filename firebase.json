@@ -4,12 +4,20 @@
       "emailPassword": true,
       "googleSignIn": {
         "oAuthBrandDisplayName": "Virtual Internship",
-        "supportEmail": "support@virtualinternship.app",
-        "authorizedRedirectUris": ["http://localhost"]
+        "supportEmail": "ernesthausmann15@gmail.com"
       }
-    }
+    },
+    "authorizedDomains": [
+      "localhost",
+      "virtual-internship-b25d1.firebaseapp.com",
+      "virtual-internship-b25d1.web.app"
+    ]
   },
   "firestore": {
-    "rules": "firestore.rules"
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json",
+    "edition": "enterprise",
+    "database": "virtual-internship-app",
+    "location": "nam5"
   }
 }

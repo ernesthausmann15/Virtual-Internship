@@ -3,18 +3,27 @@ import { getAuth, type Auth } from "firebase/auth";
 import { getFirestore, type Firestore } from "firebase/firestore";
 
 /**
- * Config comes from env so the repo never stores a real project.
- * Missing keys should fail at the moment someone tries to sign in,
- * not during a static page render of the marketing site.
+ * Public web config from `apps:sdkconfig` for virtual-internship-b25d1.
+ * Env vars override it so a different project can be used without editing
+ * this file. The API key is not a secret: Firestore rules decide who can read.
  */
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyAjlvSh_Y2AGAum4H8wpGowYznOsyGoT5o",
+  authDomain:
+    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "virtual-internship-b25d1.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "virtual-internship-b25d1",
+  storageBucket:
+    process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "virtual-internship-b25d1.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "1063423671058",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:1063423671058:web:ac36a17bd9a763fba011cb",
+  measurementId: "G-448R6D589E",
 };
+
+/**
+ * Enterprise database in nam5. It is not the `(default)` database, so every
+ * Firestore call has to name it or the SDK talks to a database that does not exist.
+ */
+export const FIRESTORE_DATABASE_ID = "virtual-internship-app";
 
 export function isFirebaseConfigured() {
   return Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
@@ -34,5 +43,5 @@ export function getFirebaseAuth(): Auth {
 }
 
 export function getDb(): Firestore {
-  return getFirestore(getFirebaseApp());
+  return getFirestore(getFirebaseApp(), FIRESTORE_DATABASE_ID);
 }

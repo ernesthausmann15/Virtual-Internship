@@ -19,10 +19,12 @@ import {
   describeAuthError,
   GUEST_EMAIL,
   GUEST_PASSWORD,
+  confirmPhoneCode,
   loginAsGuest,
   loginWithEmail,
   loginWithGoogle,
   registerWithEmail,
+  sendPhoneCode,
   sendResetEmail,
 } from "@/lib/auth";
 import { isFirebaseConfigured } from "@/lib/firebase";
@@ -42,6 +44,9 @@ export function AuthModal() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [smsCode, setSmsCode] = useState("");
+  const [codeSent, setCodeSent] = useState(false);
 
   function switchMode(next: AuthMode) {
     setError(null);
@@ -49,7 +54,7 @@ export function AuthModal() {
     dispatch(setAuthMode(next));
   }
 
-  async function run(action: () => Promise<void>) {
+  async function run(action: () => Promise<void>, options?: { stayOpen?: boolean }) {
     setError(null);
     setNotice(null);
     if (!isFirebaseConfigured()) {
@@ -59,7 +64,7 @@ export function AuthModal() {
     setPending(true);
     try {
       await action();
-      if (mode !== "reset") {
+      if (mode !== "reset" && !options?.stayOpen) {
         dispatch(closeAuthModal());
         if (pathname === "/") router.push("/for-you");
       }
@@ -183,6 +188,53 @@ export function AuthModal() {
                 <Image src="/images/google.png" alt="" width={16} height={16} />
                 Continue with Google
               </Button>
+              <div id="phone-recaptcha" />
+              <div className="grid gap-2">
+                <Label htmlFor="auth-phone">Phone</Label>
+                <Input
+                  id="auth-phone"
+                  type="tel"
+                  autoComplete="tel"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  placeholder="+1 555 555 0100"
+                />
+                {codeSent && (
+                  <Input
+                    id="auth-sms"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    value={smsCode}
+                    onChange={(event) => setSmsCode(event.target.value)}
+                    placeholder="6-digit code"
+                  />
+                )}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-10"
+                  disabled={pending}
+                  onClick={() => {
+                    const trimmed = phone.trim();
+                    if (!trimmed.startsWith("+") || trimmed.replace(/\D/g, "").length < 8) {
+                      setError("Enter a phone number with the country code, like +1 555 555 0100.");
+                      setNotice(null);
+                      return;
+                    }
+                    if (!codeSent) {
+                      void run(async () => {
+                        await sendPhoneCode(trimmed, "phone-recaptcha");
+                        setCodeSent(true);
+                        setNotice("Code sent. Enter it to finish signing in.");
+                      }, { stayOpen: true });
+                      return;
+                    }
+                    void run(() => confirmPhoneCode(smsCode));
+                  }}
+                >
+                  {codeSent ? "Verify code" : "Text me a code"}
+                </Button>
+              </div>
               <Button
                 type="button"
                 variant="secondary"

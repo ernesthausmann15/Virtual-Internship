@@ -2,9 +2,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithPhoneNumber,
   GoogleAuthProvider,
+  RecaptchaVerifier,
   sendPasswordResetEmail,
   type AuthError,
+  type ConfirmationResult,
 } from "firebase/auth";
 import { getFirebaseAuth } from "./firebase";
 
@@ -51,6 +54,18 @@ export function describeAuthError(error: unknown) {
       return "Google sign-in was closed before it finished.";
     case "auth/unauthorized-domain":
       return "This domain is not authorized in Firebase Authentication settings.";
+    case "auth/invalid-phone-number":
+      return "Enter a phone number with the country code, like +1 555 555 0100.";
+    case "auth/invalid-verification-code":
+      return "That code is incorrect.";
+    case "auth/code-expired":
+      return "That code expired. Request a new one.";
+    case "auth/operation-not-allowed":
+      return "That sign-in method is not enabled in Firebase Authentication yet.";
+    case "auth/captcha-check-failed":
+      return "The security check failed. Try the code request again.";
+    case "auth/quota-exceeded":
+      return "Too many texts were sent from this project. Try again later.";
     default:
       return "Something went wrong. Please try again.";
   }
@@ -77,6 +92,31 @@ export async function sendResetEmail(email: string) {
  * Firebase project, create it with the same hardcoded credentials so a
  * fresh project still works for a recruiter.
  */
+let phoneConfirmation: ConfirmationResult | null = null;
+let phoneVerifier: RecaptchaVerifier | null = null;
+
+/**
+ * Sends an SMS code. The verifier has to be recreated each attempt;
+ * Firebase will not render a second reCAPTCHA into the same widget.
+ */
+export async function sendPhoneCode(phoneNumber: string, containerId: string) {
+  const auth = getFirebaseAuth();
+  if (phoneVerifier) {
+    phoneVerifier.clear();
+    phoneVerifier = null;
+  }
+  phoneVerifier = new RecaptchaVerifier(auth, containerId, { size: "invisible" });
+  phoneConfirmation = await signInWithPhoneNumber(auth, phoneNumber, phoneVerifier);
+}
+
+export async function confirmPhoneCode(code: string) {
+  if (!phoneConfirmation) {
+    throw new Error("Request a code before entering it.");
+  }
+  await phoneConfirmation.confirm(code.trim());
+  phoneConfirmation = null;
+}
+
 export async function loginAsGuest() {
   const auth = getFirebaseAuth();
   try {
