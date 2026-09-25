@@ -1,6 +1,6 @@
 # feature/navigation-and-settings
 
-## What changed
+## What
 
 A sidebar is on every page except `/` and `/choose-plan`. It links to For You, My Library, and Settings, includes search and a help mailto, and shows Login or Logout. Settings shows the account email and the plan name: Basic, Premium, or Premium-Plus, with links to upgrade. Skeleton loaders cover the book rows, the player, and settings while data is in flight.
 
