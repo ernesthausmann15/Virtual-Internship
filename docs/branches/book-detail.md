@@ -1,6 +1,6 @@
 # feature/book-detail
 
-## What changed
+## What
 
 `/book/[id]` shows the cover, title, author, subtitle, ratings, description, author bio, tags, and the summary. Read and Listen either open the player or stop the person who is not allowed in. “Add to My Library” saves the book, and `/library` lists what was saved.
 
