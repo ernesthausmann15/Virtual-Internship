@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { AiField } from "@/components/motion/AiField";
@@ -34,6 +34,8 @@ export function AuthModal() {
   const open = useAppSelector((state) => state.ui.authModalOpen);
   const mode = useAppSelector((state) => state.ui.authMode);
   const reduce = useReducedMotion();
+  const pathname = usePathname();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +58,10 @@ export function AuthModal() {
     setPending(true);
     try {
       await action();
-      if (mode !== "reset") dispatch(closeAuthModal());
+      if (mode !== "reset") {
+        dispatch(closeAuthModal());
+        if (pathname === "/") router.push("/for-you");
+      }
     } catch (caught) {
       setError(caught instanceof Error && !("code" in caught) ? caught.message : describeAuthError(caught));
     } finally {
