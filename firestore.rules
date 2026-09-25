@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isValidLibrary(data) {
+      return data.keys().hasAll([
+          'bookId', 'title', 'author', 'imageLink', 'subTitle', 'subscriptionRequired', 'addedAt'
+        ])
+        && data.keys().hasOnly([
+          'bookId', 'title', 'author', 'imageLink', 'subTitle', 'subscriptionRequired', 'addedAt'
+        ])
+        && data.bookId is string
+        && data.bookId.size() > 0
+        && data.bookId.size() < 80
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() < 300
+        && data.author is string
+        && data.author.size() < 200
+        && data.imageLink is string
+        && data.imageLink.matches('^https://.*')
+        && data.subTitle is string
+        && data.subTitle.size() < 500
+        && data.subscriptionRequired is bool
+        && data.addedAt is timestamp;
+    }
+
+    match /users/{uid}/library/{bookId} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid)
+        && bookId == request.resource.data.bookId
+        && isValidLibrary(request.resource.data);
+      allow update: if isOwner(uid)
+        && bookId == request.resource.data.bookId
+        && request.resource.data.bookId == resource.data.bookId
+        && isValidLibrary(request.resource.data);
+      allow delete: if isOwner(uid);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
