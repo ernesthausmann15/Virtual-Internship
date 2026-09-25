@@ -1,6 +1,6 @@
 # feature/player
 
-## What changed
+## What
 
 `/player/[id]` plays `audioLink` with play/pause, skip back and forward 10 seconds, a scrub bar, and the current time. An equalizer moves while audio is playing. The summary uses `white-space: pre-line` so the API’s line breaks stay intact. Opening with `?mode=listen` starts playback.
 
