@@ -10,7 +10,8 @@
     "authorizedDomains": [
       "localhost",
       "virtual-internship-b25d1.firebaseapp.com",
-      "virtual-internship-b25d1.web.app"
+      "virtual-internship-b25d1.web.app",
+      "virtual-internship.vercel.app"
     ]
   },
   "firestore": {
